@@ -1,0 +1,6 @@
+{
+  "buildCommand": "pnpm --filter @workspace/rahul-agro run build",
+  "installCommand": "pnpm install --frozen-lockfile",
+  "outputDirectory": "artifacts/rahul-agro/dist/public",
+  "framework": "vite"
+}
