@@ -15,8 +15,6 @@ export default defineConfig(async () => {
   const isDevelopment = process.env.NODE_ENV !== 'production';
   const plugins = [react(), tailwindcss()];
 
-  // Replit-only plugins must not be imported or initialized during Vercel's
-  // production build. Dynamic imports keep them out of the production config.
   if (isDevelopment) {
     const { default: runtimeErrorOverlay } = await import(
       '@replit/vite-plugin-runtime-error-modal'
@@ -53,8 +51,6 @@ export default defineConfig(async () => {
       },
       dedupe: ['react', 'react-dom'],
     },
-    // Disable every sourcemap path in production to prevent Vercel from
-    // reporting unresolved original locations in generated bundles.
     esbuild: {
       sourcemap: false,
     },
@@ -65,6 +61,7 @@ export default defineConfig(async () => {
       outDir: path.resolve(import.meta.dirname, 'dist/public'),
       emptyOutDir: true,
       sourcemap: false,
+      minify: 'esbuild',
       rollupOptions: {
         output: {
           sourcemap: false,
