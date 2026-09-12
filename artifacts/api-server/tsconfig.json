@@ -6,7 +6,9 @@
     "outDir": "dist",
     "rootDir": "src",
     "types": ["node"],
-    "moduleResolution": "bundler"
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": false
   },
   "include": ["src"],
   "references": [
