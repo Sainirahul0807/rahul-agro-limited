@@ -8,15 +8,7 @@
     "types": ["node"],
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "allowImportingTsExtensions": false
+    "noEmit": true
   },
-  "include": ["src"],
-  "references": [
-    {
-      "path": "../../lib/db"
-    },
-    {
-      "path": "../../lib/api-zod"
-    }
-  ]
+  "files": []
 }
