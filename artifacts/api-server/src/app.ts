@@ -1,13 +1,17 @@
 import express from "express";
 import cors from "cors";
-import pinoHttpModule from "pino-http";
+import * as pinoHttpModule from "pino-http";
 import router from "./routes/index.js";
 import { logger } from "./lib/logger.js";
 
-// Support both CommonJS and ESM shapes of pino-http across Vercel's TypeScript setup.
-const pinoHttp = (pinoHttpModule as typeof pinoHttpModule & { default?: typeof pinoHttpModule }).default ?? pinoHttpModule;
+// Normalize pino-http's CommonJS/ESM export shape for NodeNext builds.
+const pinoHttp: any =
+  (pinoHttpModule as any).default ?? (pinoHttpModule as any);
 
-const app = express() as any;
+// The API package is compiled independently in the monorepo. Keeping the
+// Express instance typed as any avoids incompatible Express type copies that
+// can be installed in nested workspace node_modules on Vercel.
+const app: any = express();
 
 app.use(
   pinoHttp({
@@ -28,10 +32,10 @@ app.use(
     },
   }),
 );
+
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 app.use("/api", router);
 
 export default app;
