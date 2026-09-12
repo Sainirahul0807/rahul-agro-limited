@@ -3,8 +3,6 @@ import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vite';
 
-import runtimeErrorOverlay from '@replit/vite-plugin-runtime-error-modal';
-
 export default defineConfig(async () => {
   const rawPort = process.env.PORT || '5173';
   const port = Number(rawPort);
@@ -15,33 +13,34 @@ export default defineConfig(async () => {
 
   const basePath = process.env.BASE_PATH || '/';
   const isDevelopment = process.env.NODE_ENV !== 'production';
+  const plugins = [react(), tailwindcss()];
+
+  // Replit-only plugins must not be imported or initialized during Vercel's
+  // production build. Dynamic imports keep them out of the production config.
+  if (isDevelopment) {
+    const { default: runtimeErrorOverlay } = await import(
+      '@replit/vite-plugin-runtime-error-modal'
+    );
+    plugins.push(runtimeErrorOverlay());
+
+    if (process.env.REPL_ID !== undefined) {
+      const { cartographer } = await import(
+        '@replit/vite-plugin-cartographer'
+      );
+      const { devBanner } = await import('@replit/vite-plugin-dev-banner');
+
+      plugins.push(
+        cartographer({
+          root: path.resolve(import.meta.dirname, '..'),
+        }),
+        devBanner(),
+      );
+    }
+  }
 
   return {
     base: basePath,
-    plugins: [
-      react(),
-      tailwindcss(),
-      // The Replit runtime error overlay is a development-only plugin.
-      // Loading it during a Vercel production build can cause Vite config
-      // evaluation to fail, so only enable it outside production.
-      ...(isDevelopment ? [runtimeErrorOverlay()] : []),
-      ...(isDevelopment && process.env.REPL_ID !== undefined
-        ? [
-            (
-              await import('@replit/vite-plugin-cartographer').then((m) =>
-                m.cartographer({
-                  root: path.resolve(import.meta.dirname, '..'),
-                })
-              )
-            ),
-            (
-              await import('@replit/vite-plugin-dev-banner').then((m) =>
-                m.devBanner()
-              )
-            ),
-          ]
-        : []),
-    ],
+    plugins,
     resolve: {
       alias: {
         '@': path.resolve(import.meta.dirname, 'src'),
