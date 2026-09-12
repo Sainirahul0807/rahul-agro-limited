@@ -53,11 +53,13 @@ export default defineConfig(async () => {
       },
       dedupe: ['react', 'react-dom'],
     },
-    // Prevent Vite, esbuild, and Rollup from generating source maps in
-    // production. This avoids Vercel sourcemap resolution warnings caused by
-    // generated bundles referring to unavailable source files.
+    // Disable every sourcemap path in production to prevent Vercel from
+    // reporting unresolved original locations in generated bundles.
     esbuild: {
       sourcemap: false,
+    },
+    css: {
+      devSourcemap: false,
     },
     build: {
       outDir: path.resolve(import.meta.dirname, 'dist/public'),
