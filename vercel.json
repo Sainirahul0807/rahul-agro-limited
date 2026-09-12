@@ -1,7 +1,7 @@
 {
-  "buildCommand": "pnpm --filter @workspace/rahul-agro run build",
+  "buildCommand": "pnpm --filter @workspace/rahul-agro run build && rm -rf public && cp -r artifacts/rahul-agro/dist/public public",
   "installCommand": "pnpm install --frozen-lockfile",
-  "outputDirectory": "artifacts/rahul-agro/dist/public",
+  "outputDirectory": "public",
   "framework": "vite",
   "env": {
     "PORT": "5173",
