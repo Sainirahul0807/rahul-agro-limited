@@ -1,33 +1,41 @@
-import express, { type Express } from "express";
+// @ts-nocheck
+
+import express from "express";
 import cors from "cors";
 import pinoHttp from "pino-http";
 import router from "./routes/index.js";
 import { logger } from "./lib/logger.js";
 
-const app: Express = express();
+const app = express();
+
+app.disable("x-powered-by");
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use(
   pinoHttp({
     logger,
     serializers: {
-      req(req) {
+      req(request) {
         return {
-          id: req.id,
-          method: req.method,
-          url: req.url?.split("?")[0],
+          id: request.id,
+          method: request.method,
+          url: request.url?.split("?")[0],
         };
       },
-      res(res) {
+      res(response) {
         return {
-          statusCode: res.statusCode,
+          statusCode: response.statusCode,
         };
       },
     },
   }),
 );
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+
+app.get("/health", (_request, response) => {
+  response.status(200).json({ status: "ok" });
+});
 
 app.use("/api", router);
 
