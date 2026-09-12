@@ -4,7 +4,7 @@ import { useHealthCheck, useSendChat, getHealthCheckQueryKey } from '@workspace/
 import { ErrorBoundary } from '@/components/error-boundary';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
-import { ArrowRight, BarChart3, Bell, Box, Calculator, CalendarDays, Check, ChevronRight, CircleHelp, CloudSun, Download, FileText, Filter, Gauge, HandCoins, Headphones, Info, Leaf, LineChart, MapPin, Menu, MessageCircle, PackageCheck, Phone, Search, Send, ShieldCheck, ShoppingBag, Snowflake, Sprout, Thermometer, Truck, Users, Warehouse, X, Zap } from 'lucide-react';
+import { ArrowRight, BarChart3, Bell, Box, Calculator, CalendarDays, Check, ChevronRight, CircleHelp, CloudSun, Download, FileText, Filter, Gauge, HandCoins, Headphones, Info, Leaf, LineChart, MapPin, Menu, MessageCircle, PackageCheck, Phone, Search, Send, ShieldCheck, ShoppingBag, Snowflake, Sprout, Thermometer, Truck, Users, Warehouse, X } from 'lucide-react';
 import { Link, Route, Switch, Router as WouterRouter, useLocation } from 'wouter';
 import './index.css';
 
@@ -122,6 +122,29 @@ function ChatAssistant({ language }: { language: Language }) {
   </>;
 }
 
+function FieldNetworkArt() {
+  const rows = [
+    { crop: 'POTATO', lot: 'RA · 120 QTL', tone: 'potato' },
+    { crop: 'ONION', lot: 'RA · 084 QTL', tone: 'onion' },
+    { crop: 'WHEAT', lot: 'RA · 210 QTL', tone: 'wheat' },
+  ];
+  return <div className="field-network" aria-label="Illustrated crop field connected to a cold chamber">
+    <div className="field-network-grid" />
+    <div className="field-network-sun" />
+    <div className="field-network-horizon" />
+    <div className="field-network-title"><span className="signal-dot" /> FIELD GATE / TAURU EAST</div>
+    <div className="field-network-chamber"><span className="chamber-mark">RA</span><strong>03.2°</strong><small>RA-T02 · STABLE</small></div>
+    <div className="field-network-route route-a" />
+    <div className="field-network-route route-b" />
+    <div className="field-network-route route-c" />
+    <div className="field-plots">{rows.map((row, index) => <div className={`field-plot plot-${index + 1}`} key={row.crop}>
+      <div className="plot-label"><b>{row.crop}</b><span>{row.lot}</span></div>
+      <div className={`crop-row crop-row-${row.tone}`}>{Array.from({ length: 5 }, (_, cropIndex) => <span className="crop-stem" key={cropIndex}><i /><i /></span>)}</div>
+    </div>)}</div>
+    <div className="field-network-scale"><span>FIELD</span><span>GATE</span><span>CHAMBER</span><span>MANDI</span></div>
+  </div>;
+}
+
 function Shell({ children }: { children: ReactNode }) {
   const [language, setLanguage] = useState<Language>('en');
   const [mobileMenu, setMobileMenu] = useState(false);
@@ -143,7 +166,7 @@ function Home() {
   return <>
     <section className="hero"><div className="container-wide hero-grid">
       <div className="reveal"><span className="eyebrow">Harvest, held at its best</span><h1>Keep the crop.<br /><em>Choose the moment.</em></h1><p className="hero-lede">Cold storage, crop discovery and reliable dispatch — a practical local network for farmers, traders and procurement teams around Tauru.</p><div className="hero-cta-row"><Link href="/book-chamber" className="button button-primary" data-testid="link-hero-book"><Warehouse size={16} /> Reserve cold space <ArrowRight size={14} /></Link><Link href="/categories" className="button button-secondary" data-testid="link-hero-catalog"><ShoppingBag size={16} /> Browse the catalog</Link></div><div className="trust-strip"><span className="trust-item"><ShieldCheck size={14} /> Verified chambers</span><span className="trust-item"><Thermometer size={14} /> Live temperature</span><span className="trust-item"><MapPin size={14} /> Tauru-first network</span></div></div>
-      <div className="hero-visual reveal reveal-delay-2"><div className="warehouse-art"><div className="visual-label"><Zap size={11} /> LIVE OPERATIONS · TAURU</div><div className="warehouse-sun" /><div className="warehouse-roof" /><div className="warehouse-body"><div className="warehouse-door" /></div><div className="visual-reading"><b>3.2°C</b><span>RA-T02 · stable now</span></div></div></div>
+       <div className="hero-visual reveal reveal-delay-2"><FieldNetworkArt /></div>
     </div></section>
     <div className="marquee"><div className="marquee-track">{[0, 1].map((set) => <div className="marquee-track" key={set}>{['Potato · Jyoti', 'Onion · Nashik Red', 'Wheat · HD 2967', 'Mustard · Pusa Bold', 'Raah se mandi tak'].map((item) => <span className="marquee-item" key={`${set}-${item}`}><b>+</b>{item}</span>)}</div>)}</div></div>
     <section className="section"><div className="container-wide"><div className="section-heading"><div><span className="eyebrow">One network, three jobs</span><h2>From field gate<br />to fairer timing.</h2></div><p>We make the in-between visible: what is available, how long it can hold, and what it takes to move it when the price is right.</p></div><div className="service-grid">
