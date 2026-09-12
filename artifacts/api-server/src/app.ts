@@ -1,8 +1,8 @@
 import express from "express";
 import cors from "cors";
 import * as pinoHttpModule from "pino-http";
-import router from "./routes/index";
-import { logger } from "./lib/logger";
+import router from "./routes/index.js";
+import { logger } from "./lib/logger.js";
 
 // Normalize pino-http's CommonJS/ESM export shape for NodeNext builds.
 const pinoHttp: any =
