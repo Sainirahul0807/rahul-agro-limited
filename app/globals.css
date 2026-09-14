@@ -1,0 +1,110 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-jakarta: 'Plus Jakarta Sans', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-jakarta), sans-serif;
+  background-color: #f4f1ea;
+  color: #1e293b;
+}
+
+/* Ticker animation */
+@keyframes ticker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation: ticker 28s linear infinite;
+}
+
+.ticker-track:hover {
+  animation-play-state: paused;
+}
+
+/* Wheat sway animation for hero background leaves */
+@keyframes wheat-sway {
+  0%, 100% { transform: rotate(-3deg) translateY(0px); }
+  50% { transform: rotate(3deg) translateY(-6px); }
+}
+
+.wheat-1 { animation: wheat-sway 3.5s ease-in-out infinite; transform-origin: bottom center; }
+.wheat-2 { animation: wheat-sway 4.2s ease-in-out infinite 0.5s; transform-origin: bottom center; }
+.wheat-3 { animation: wheat-sway 3.8s ease-in-out infinite 1s; transform-origin: bottom center; }
+
+/* Reveal animation */
+@keyframes fade-up {
+  0% { opacity: 0; transform: translateY(28px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+}
+
+.reveal.visible {
+  animation: fade-up 0.55s ease-out forwards;
+}
+
+/* Boxy utility classes */
+@layer components {
+  .boxy-card {
+    @apply border-2 border-charcoal shadow-boxy bg-white;
+  }
+
+  .boxy-btn-primary {
+    @apply bg-farm-green text-white border-2 border-charcoal shadow-boxy px-5 py-3 font-bold 
+           hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none 
+           transition-all duration-150 cursor-pointer;
+  }
+
+  .boxy-btn-gold {
+    @apply bg-mustard-gold text-charcoal border-2 border-charcoal shadow-boxy px-5 py-3 font-bold 
+           hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none 
+           transition-all duration-150 cursor-pointer;
+  }
+
+  .boxy-btn-outline {
+    @apply bg-white text-charcoal border-2 border-charcoal shadow-boxy-sm px-4 py-2 font-semibold 
+           hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none 
+           transition-all duration-150 cursor-pointer;
+  }
+
+  .section-title {
+    @apply text-2xl md:text-3xl font-extrabold text-charcoal border-b-4 border-mustard-gold pb-2 inline-block;
+  }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #f4f1ea; }
+::-webkit-scrollbar-thumb { background: #1b4332; border-radius: 0px; }
+
+/* Modal backdrop */
+.modal-backdrop {
+  backdrop-filter: blur(4px);
+  background-color: rgba(0,0,0,0.6);
+}
+
+/* Check animation */
+@keyframes draw-check {
+  0% { stroke-dashoffset: 100; }
+  100% { stroke-dashoffset: 0; }
+}
+
+.check-path {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: draw-check 0.8s ease-out 0.3s forwards;
+}
