@@ -1,60 +1,104 @@
-import express from "express";
+import express, {
+  type ErrorRequestHandler,
+  type Request,
+  type Response,
+  type NextFunction
+} from "express";
 import cors from "cors";
 import router from "./routes/index.js";
 import { logger } from "./lib/logger.js";
 
 const app = express();
 
-app.disable("x-powered-by");
+/**
+ * Middleware
+ */
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.use(
-  cors({
-    origin: true,
-    credentials: true,
-  }),
-);
+/**
+ * Request logging
+ */
+app.use((req: Request, _res: Response, next: NextFunction) => {
+  logger.info(
+    {
+      method: req.method,
+      path: req.originalUrl
+    },
+    "Incoming request"
+  );
 
-app.use(express.json({ limit: "10mb" }));
-app.use(express.urlencoded({ extended: true, limit: "10mb" }));
+  next();
+});
 
-app.get("/", (_req, res) => {
-  res.status(200).json({
-    success: true,
-    message: "Rahul Agro API is running",
+/**
+ * Root endpoint
+ */
+app.get("/", (_req: Request, res: Response) => {
+  res.json({
+    name: "Rahul Agro API",
+    status: "ok",
+    message: "Rahul Agro API server is running"
   });
 });
 
-app.get("/health", (_req, res) => {
+/**
+ * Health-check endpoint
+ */
+app.get("/health", (_req: Request, res: Response) => {
   res.status(200).json({
     status: "ok",
-    service: "rahul-agro-api",
-    timestamp: new Date().toISOString(),
+    service: "rahul-agro-api"
   });
 });
 
+/**
+ * API routes
+ */
 app.use("/api", router);
 
-app.use((_req, res) => {
+/**
+ * 404 handler
+ */
+app.use((_req: Request, res: Response) => {
   res.status(404).json({
-    success: false,
-    message: "Endpoint not found",
+    error: "Not Found",
+    message: "The requested endpoint does not exist"
   });
 });
 
-app.use(
-  (
-    error: any,
-    _req: express.Request,
-    res: express.Response,
-    _next: express.NextFunction,
-  ) => {
-    console.error("Server error:", error);
+/**
+ * Error handler
+ */
+const errorHandler: ErrorRequestHandler = (
+  error,
+  _req,
+  res,
+  _next
+) => {
+  logger.error(
+    {
+      error
+    },
+    "Unhandled application error"
+  );
 
-    res.status(error?.status || 500).json({
-      success: false,
-      message: error?.message || "Internal server error",
-    });
-  },
-);
+  if (res.headersSent) {
+    return;
+  }
+
+  res.status(500).json({
+    error: "Internal Server Error",
+    message:
+      process.env.NODE_ENV === "production"
+        ? "An unexpected error occurred"
+        : error instanceof Error
+          ? error.message
+          : "An unexpected error occurred"
+  });
+};
+
+app.use(errorHandler);
 
 export default app;
