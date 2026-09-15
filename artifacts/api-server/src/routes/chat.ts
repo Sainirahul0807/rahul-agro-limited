@@ -1,5 +1,6 @@
 import { Router, type IRouter } from "express";
 import { SendChatBody, SendChatResponse } from "@workspace/api-zod";
+import { logger } from "../lib/logger.js";
 
 const router: IRouter = Router();
 
@@ -30,7 +31,7 @@ router.post("/chat", async (req, res) => {
 
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
-    req.log.error("GEMINI_API_KEY is not configured");
+    logger.error("GEMINI_API_KEY is not configured");
     res.status(503).json({ error: "The assistant is temporarily unavailable." });
     return;
   }
@@ -62,7 +63,7 @@ router.post("/chat", async (req, res) => {
 
     if (!response.ok) {
       const providerError = await response.text();
-      req.log.error(
+      logger.error(
         { status: response.status, providerError: providerError.slice(0, 500) },
         "Gemini request failed",
       );
@@ -91,7 +92,7 @@ router.post("/chat", async (req, res) => {
     });
     res.json(data);
   } catch (error) {
-    req.log.error({ err: error }, "Chat assistant request failed");
+    logger.error({ err: error }, "Chat assistant request failed");
     res.status(502).json({ error: "The assistant could not respond right now." });
   }
 });
