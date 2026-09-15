@@ -1,6 +1,6 @@
 # 🌾 Rahul Agro Limited — Cold Storage Web Platform
 
-A full-stack, production-ready agri-tech web application for **Rahul Agro Limited**, a premium cold storage facility located at **Sainipura, Taoru, Nuh District, Haryana**.
+A full-stack, production-ready agri-tech web application for Rahul Agro Limited, a premium cold storage facility located at Sainipura, Taoru, Nuh District, Haryana.
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/YOUR_USERNAME/rahul-agro)
 
@@ -24,7 +24,7 @@ A full-stack, production-ready agri-tech web application for **Rahul Agro Limite
 - 📊 **Storage Rent Calculator** — Instant cost estimates with insurance levy and advance token
 - 📋 **Multi-Step Booking Flow** — 4-step form with animated confirmation modal and QR code
 - 🏛️ **Government Procurement Portal** — FCI/HAFED/NAFED tender-based bulk space leasing with GSTIN verification
-- 🤖 **Gemini AI Chatbot** — "Rahul Agro Sahayak" powered by Google Gemini
+- 🤖 **Gemini AI Chatbot** — “Rahul Agro Sahayak” powered by Google Gemini
 - 🌐 **3-Language Support** — English, हिंदी (Hindi), Haryanvi (Latin Script)
 - 📱 **Fully Responsive** — Mobile-first with hamburger nav
 - ⚡ **Neo-Brutalist Design** — Boxy cards, bold borders, mustard-gold accents
@@ -68,7 +68,7 @@ cp .env.example .env.local
 
 Open `.env.local` and add your Gemini API key:
 
-```
+```bash
 GEMINI_API_KEY=your_actual_gemini_api_key_here
 ```
 
@@ -80,7 +80,7 @@ GEMINI_API_KEY=your_actual_gemini_api_key_here
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+Open http://localhost:3000 in your browser.
 
 ---
 
@@ -93,17 +93,17 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 ### Manual Deployment
 
 1. Push this repo to your GitHub account
-2. Go to [vercel.com](https://vercel.com) → **New Project** → Import your repo
+2. Go to vercel.com → New Project → Import your repo
 3. Add Environment Variable:
-   - **Name:** `GEMINI_API_KEY`
-   - **Value:** Your Gemini API key
-4. Click **Deploy** — done! ✅
+   - Name: `GEMINI_API_KEY`
+   - Value: Your Gemini API key
+4. Click Deploy — done! ✅
 
 ---
 
 ## 📁 Project Structure
 
-```
+```text
 rahul-agro/
 ├── app/
 │   ├── layout.tsx              # Root layout (Navbar, Footer, ChatWidget)
@@ -163,3 +163,4 @@ Office: Sainipura, Taoru, Nuh District, Haryana
 ---
 
 © 2025 Rahul Agro Limited. All rights reserved.
+
