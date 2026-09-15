@@ -5,7 +5,7 @@
   "outputDirectory": "artifacts/rahul-agro/dist/public",
   "rewrites": [
     {
-      "source": "/(.*)",
+      "source": "/((?!api(?:/|$)).*)",
       "destination": "/index.html"
     }
   ]
